@@ -17,6 +17,7 @@ public class RankingService {
 
     private final UserRepository userRepository;
 
+    // 랭킹 조회
     public List<RankingDto> getRanking() {
         List<User> rankings = userRepository.findAll();
 

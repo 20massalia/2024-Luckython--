@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
+// 랭킹 반환 DTO
 public class RankingDto {
     private Long userId;
     private String username;

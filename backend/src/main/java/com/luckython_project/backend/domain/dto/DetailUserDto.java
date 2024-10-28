@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+// 유저 정보 반환 DTO
 public class DetailUserDto {
     private Long userId;
 
@@ -25,6 +26,7 @@ public class DetailUserDto {
         this.success = success;
     }
 
+    // User 엔티티를 DTO로 변환
     public static DetailUserDto of(User user) {
         return DetailUserDto.builder()
                 .userId(user.getUserId())

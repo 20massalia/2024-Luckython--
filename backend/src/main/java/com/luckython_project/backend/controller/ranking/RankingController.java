@@ -18,6 +18,7 @@ public class RankingController {
 
     private final RankingService rankingService;
 
+    // 랭킹 조회
     @GetMapping("/ranking")
     public ResponseEntity<List<RankingDto>> getRanking(){
         return ResponseEntity.ok()
