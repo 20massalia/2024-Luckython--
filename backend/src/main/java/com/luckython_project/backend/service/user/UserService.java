@@ -5,6 +5,7 @@ import com.luckython_project.backend.domain.dto.UpdateUserDto;
 import com.luckython_project.backend.domain.entity.challenge.Challenge;
 import com.luckython_project.backend.domain.entity.user.User;
 import com.luckython_project.backend.repository.user.UserRepository;
+import com.luckython_project.backend.service.ranking.RankingService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class UserService {
     public List<Challenge> getUserChallenge(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        // todo
+        return user.getChallenges();
     }
 
     // userId를 기반으로 유저 정보를 업데이트
@@ -38,5 +39,10 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         user.updateUser(updateUserDto);
         return DetailUserDto.of(user);
+    }
+
+    // 유저 생성
+    public DetailUserDto createUser(User user) {
+        return DetailUserDto.of(userRepository.save(user));
     }
 }

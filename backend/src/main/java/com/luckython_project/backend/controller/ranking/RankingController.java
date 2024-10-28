@@ -1,6 +1,7 @@
 package com.luckython_project.backend.controller.ranking;
 
 import com.luckython_project.backend.domain.dto.RankingDto;
+import com.luckython_project.backend.domain.entity.user.User;
 import com.luckython_project.backend.service.ranking.RankingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

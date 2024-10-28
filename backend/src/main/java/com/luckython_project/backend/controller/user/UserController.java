@@ -3,6 +3,8 @@ package com.luckython_project.backend.controller.user;
 import com.luckython_project.backend.domain.dto.DetailUserDto;
 import com.luckython_project.backend.domain.dto.UpdateUserDto;
 import com.luckython_project.backend.domain.entity.challenge.Challenge;
+import com.luckython_project.backend.domain.entity.user.User;
+import com.luckython_project.backend.repository.user.UserRepository;
 import com.luckython_project.backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @GetMapping("/{userId}")
     public ResponseEntity<DetailUserDto> getUser(@PathVariable Long userId) {
@@ -33,5 +36,11 @@ public class UserController {
     public ResponseEntity<DetailUserDto> updateUser(@PathVariable Long userId, @RequestBody UpdateUserDto updateUserDto){
         return ResponseEntity.ok()
                 .body(userService.updateUser(userId, updateUserDto));
+    }
+
+    @PostMapping
+    public ResponseEntity<DetailUserDto> createUser(@RequestBody User user){
+        return ResponseEntity.ok()
+                .body(userService.createUser(user));
     }
 }

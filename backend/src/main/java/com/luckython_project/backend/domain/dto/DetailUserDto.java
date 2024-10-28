@@ -6,30 +6,31 @@ import lombok.Getter;
 
 @Getter
 public class DetailUserDto {
-    private Long id;
+    private Long userId;
 
     private String username;
 
     private Integer point;
 
-    private Integer in;
+    private Integer participation;
 
     private Integer success;
 
     @Builder
-    public DetailUserDto(Long id, String username, Integer point, Integer in, Integer success) {
-        this.id = id;
+    public DetailUserDto(Long userId, String username, Integer point, Integer participation, Integer success) {
+        this.userId = userId;
         this.username = username;
         this.point = point;
-        this.in = in;
+        this.participation = participation;
         this.success = success;
     }
 
     public static DetailUserDto of(User user) {
         return DetailUserDto.builder()
+                .userId(user.getUserId())
                 .username(user.getUsername())
                 .point(user.getPoint())
-                .in(user.getIn())
+                .participation(user.getParticipation())
                 .success(user.getSuccess())
                 .build();
     }

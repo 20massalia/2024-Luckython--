@@ -1,5 +1,6 @@
 package com.luckython_project.backend.domain.entity.challenge;
 
+import com.luckython_project.backend.domain.entity.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +21,9 @@ public class Challenge {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "userId")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 
     @Column(length = 10)
     private String hashtag;
