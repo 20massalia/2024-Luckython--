@@ -15,9 +15,9 @@ const Rank = styled.div`
 
 const Card = styled.div`
   align-items: center;
-  background-color: #ffffff;
+  background-color: white;
   border-radius: 16px;
-  box-shadow: 0px 4px 4px #00000040;
+  box-shadow: 0px 4px 4px black;
   display: flex;
   flex: 1;
   gap: 20px;

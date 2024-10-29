@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ChallengeCard from '../components/ChallengeCard';
 import Header from '../components/Header';
 import Button from '../components/Button';
+import NavBar from '../components/NavBar';
 import { COLORS } from '../utils/color';
-import { get_challenge_list } from '../services/challenge'; 
 import ChevronIcon from '../assets/icons/Chevron.svg';
 
 const Container = styled.div`
   padding: 20px;
   background-color: ${COLORS.gray};
   box-sizing: border-box;
+  padding-bottom: 60px;  // 네비게이션 바 공간 확보
 `;
 
 const TitleContainer = styled.div`
@@ -63,7 +64,7 @@ const InputContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
-`
+`;
 
 const Input = styled.input`
   padding: 8px;
@@ -88,23 +89,7 @@ const HomePage = () => {
 
   const handleButtonClick = () => {
     console.log(`입력된 포인트: ${inputPoint}`);
-    // API
   };
-
-  // const [challenges, setChallenges] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchChallenges = async () => {
-  //     try {
-  //       const data = await get_challenge_list();
-  //       setChallenges(data);
-  //     } catch (error) {
-  //       console.error('Failed to fetch challenges', error);
-  //     }
-  //   };
-
-  //   fetchChallenges();
-  // }, []);
 
   const challenges = [
     {
@@ -113,35 +98,43 @@ const HomePage = () => {
       startDate: "24.10.15",
       endDate: "24.11.15",
       participants: 1000,
+      image: "/path/to/image1.png",
+      isCompleted: false,
     },
     {
-      title: "개구리 귀엽게 그리기 챌린지",
-      description: "개구리를 귀엽게 그리는 챌린지입니다! 그림에 자신이 있다면 참여해보세요.",
+      title: "하루 만보 걷기 챌린지",
+      description: "건강을 위해 하루에 만보 걷기를 목표로 합니다.",
       startDate: "24.10.15",
       endDate: "24.11.15",
-      participants: 1000,
+      participants: 800,
+      image: "/path/to/image2.png",
+      isCompleted: false,
     },
   ];
 
   return (
     <>
-      <Header title={"할래? 말래?"}/>
+      <Header title="할래? 말래?" />
       <Container>
-        <TitleContainer onClick={() => {navigate(`challenges`);}}>
+        <TitleContainer onClick={() => navigate('/challenges')}>
           <SectionTitle>진행 중인 챌린지</SectionTitle>
           <Icon src={ChevronIcon} alt="Chevron icon" />
         </TitleContainer>
         <ChallengeList>
-          {challenges.map((challenge, index) => (
-            <ChallengeCard
-              key={index}
-              title={challenge.title}
-              description={challenge.description}
-              startDate={challenge.startDate}
-              endDate={challenge.endDate}
-              participants={challenge.participants}
-            />
-          ))}
+          {challenges
+            .filter((challenge) => !challenge.isCompleted)
+            .map((challenge, index) => (
+              <ChallengeCard
+                key={index}
+                title={challenge.title}
+                description={challenge.description}
+                startDate={challenge.startDate}
+                endDate={challenge.endDate}
+                participants={challenge.participants}
+                image={challenge.image}
+                isCompleted={challenge.isCompleted}
+              />
+            ))}
         </ChallengeList>
 
         <SectionTitle>포인트 내기</SectionTitle>
@@ -155,10 +148,11 @@ const HomePage = () => {
               value={inputPoint} 
               onChange={handleInputChange} 
             />
-            <Button text={"돌릴래!"} onClick={handleButtonClick}/>
+            <Button text="돌릴래!" onClick={handleButtonClick} />
           </InputContainer>
         </RouletteContainer>
       </Container>
+      <NavBar />
     </>
   );
 };
