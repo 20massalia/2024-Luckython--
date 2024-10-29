@@ -1,5 +1,7 @@
 import axios from "axios";
 
+export const userId = process.env.REACT_APP_USER_ID;
+
 export const get_user = async (userId) => {
   const response = await axios.get(`/api/user/${userId}`);
   return response;
