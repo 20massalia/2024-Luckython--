@@ -166,7 +166,6 @@ const HomePage = () => {
           </InputContainer>
         </RouletteContainer>
       </Container>
-      <NavBar />
     </>
   );
 };

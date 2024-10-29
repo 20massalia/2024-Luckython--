@@ -82,7 +82,6 @@ const ChallengeList = () => {
           ))}
         </ChallengeListContainer>
       </Container>
-      <NavBar />
     </>
   );
 };

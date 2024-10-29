@@ -69,7 +69,6 @@ const MyPage = () => {
           </StatItem>
         </StatsContainer>
       </Container>
-      <NavBar />
     </>
   );
 };
