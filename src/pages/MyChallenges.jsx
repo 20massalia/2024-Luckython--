@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import ChallengeCard from '../components/ChallengeCard';
 import Header from '../components/Header';
-import NavBar from '../components/NavBar';
 import { COLORS } from '../utils/color';
 
 const Container = styled.div`
@@ -10,6 +9,7 @@ const Container = styled.div`
   background-color: ${COLORS.gray};
   box-sizing: border-box;
   padding-bottom: 60px;
+  min-height: 100vh;
 `;
 
 const SectionTitle = styled.h2`
@@ -90,7 +90,6 @@ const MyChallenges = () => {
           ))}
         </ChallengeList>
       </Container>
-      <NavBar />
     </>
   );
 };

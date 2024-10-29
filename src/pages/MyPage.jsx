@@ -1,71 +1,77 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
-import NavBar from '../components/NavBar';
 import { COLORS } from '../utils/color';
+import PointIcon from '../assets/icons/Point.svg';
+import StarIcon from '../assets/icons/Star.svg';
+import CheckedIcon from '../assets/icons/Checked.svg';
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   padding: 20px;
   background-color: ${COLORS.gray};
   box-sizing: border-box;
   text-align: center;
-  padding-bottom: 60px;
-`;
-
-const ProfileImage = styled.div`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: ${COLORS.lightGray};
-  margin: 0 auto 20px;
 `;
 
 const UserName = styled.h2`
-  font-size: 20px;
+  font-size: 40px;
   color: ${COLORS.grayblue};
-  margin: 0 0 20px;
+  margin-bottom: 20px;
 `;
 
 const StatsContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  margin-top: 20px;
+  width: 100%;
+  max-width: 480px;
 `;
 
 const StatItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 16px;
+  gap: 10px;
+  font-size: 18px;
 `;
 
-const StatIcon = styled.div`
-  font-size: 24px;
-  margin-bottom: 8px;
+const Icon = styled.img`
+  width: 50px;
+  height: 50px;
 `;
 
 const MyPage = () => {
+  const userData = {
+    username: 'Kim',
+    point: 500,
+    participation: 35,
+    success: 70,
+  };
+
   return (
     <>
       <Header title="마이페이지" />
       <Container>
-        <ProfileImage />
-        <UserName>개구리님</UserName>
+        <UserName>{userData.username}님</UserName>
         <StatsContainer>
           <StatItem>
-            <StatIcon>🏅</StatIcon>
+            <Icon src={PointIcon} alt="Point icon" />
             <span>포인트</span>
-            <strong>1029점</strong>
+            <strong>{userData.point}점</strong>
           </StatItem>
           <StatItem>
-            <StatIcon>⭐</StatIcon>
+            <Icon src={StarIcon} alt="Star icon" />
             <span>참여중</span>
-            <strong>3개</strong>
+            <strong>{userData.participation}개</strong>
           </StatItem>
           <StatItem>
-            <StatIcon>✅</StatIcon>
+            <Icon src={CheckedIcon} alt="Checked icon" />
             <span>완료한 챌린지</span>
-            <strong>10개</strong>
+            <strong>{userData.success}개</strong>
           </StatItem>
         </StatsContainer>
       </Container>

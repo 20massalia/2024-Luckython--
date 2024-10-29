@@ -11,6 +11,7 @@ const Container = styled.div`
   background-color: ${COLORS.gray};
   box-sizing: border-box;
   padding-bottom: 60px;
+  min-height: 100vh;
 `;
 
 const ChallengeListContainer = styled.div`

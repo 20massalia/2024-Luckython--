@@ -6,56 +6,50 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-`
+  margin-bottom: 20px;
+`;
 
 const Rank = styled.div`
   font-size: 30px;
   font-weight: 500;
-`
+  margin-right: 20px;
+  color: ${COLORS.grayblue};
+`;
 
 const Card = styled.div`
   align-items: center;
   background-color: white;
   border-radius: 16px;
-  box-shadow: 0px 4px 4px black;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex: 1;
   gap: 20px;
   height: 100px;
   padding: 20px;
   position: relative;
-`
-
-const Image = styled.div`
-  height: 59px;
-  width: 59px;
-`
+`;
 
 const TextContainer = styled.div`
-  align-items: flex-start;
-  flex: 0 0 auto;
+  display: flex;
   flex-direction: column;
-  gap: 10px;
   justify-content: center;
-  position: relative;
-`
+`;
 
 const UserName = styled.div`
   font-size: 20px;
   font-weight: 500;
-`
+`;
 
 const Point = styled.div`
   font-size: 20px;
-  font-weight: 300;
-`
+  font-weight: 200;
+`;
 
-const RankCard = ({rank, image, username, point}) => {
+const RankCard = ({ rank, username, point }) => {
   return (
     <Container>
       <Rank>{rank}</Rank>
       <Card>
-        <Image>{image}</Image>
         <TextContainer>
           <UserName>{username}</UserName>
           <Point>{point}점</Point>
@@ -63,6 +57,6 @@ const RankCard = ({rank, image, username, point}) => {
       </Card>
     </Container>
   );
-}
+};
 
 export default RankCard;

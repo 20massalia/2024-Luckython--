@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import ChallengeCard from '../components/ChallengeCard';
 import Header from '../components/Header';
 import Button from '../components/Button';
-import NavBar from '../components/NavBar';
 import { COLORS } from '../utils/color';
 import ChevronIcon from '../assets/icons/Chevron.svg';
 
@@ -13,6 +12,7 @@ const Container = styled.div`
   background-color: ${COLORS.gray};
   box-sizing: border-box;
   padding-bottom: 60px;
+  min-height: 100vh;
 `;
 
 const TitleContainer = styled.div`
@@ -126,6 +126,13 @@ const HomePage = () => {
     },
   ];
 
+  const userData = {
+    username: 'Kim',
+    point: 500,
+    participation: 35,
+    success: 70,
+  };
+
   return (
     <>
       <Header title="할래? 말래?" />
@@ -153,7 +160,7 @@ const HomePage = () => {
 
         <SectionTitle>포인트 내기</SectionTitle>
         <RouletteContainer>
-          <p>현재 나의 포인트: 108점</p>
+          <p>현재 나의 포인트: {userData.point}점</p>
           <RouletteImage>룰렛 이미지</RouletteImage>
           <InputContainer>
             <Input 

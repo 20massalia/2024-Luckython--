@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import RankPage from './pages/RankPage';
 import MyChallenges from './pages/MyChallenges';
 import ChallengeList from './pages/ChallengeList'
 import MyPage from './pages/MyPage';

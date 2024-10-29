@@ -8,6 +8,7 @@ import Button from '../components/Button';
 const Container = styled.div`
   padding: 20px;
   background-color: ${COLORS.gray};
+  min-height: 100vh;
 `;
 
 const ChallengeInfo = styled.div`
