@@ -12,7 +12,7 @@ const Container = styled.div`
   padding: 20px;
   background-color: ${COLORS.gray};
   box-sizing: border-box;
-  padding-bottom: 60px;  // 네비게이션 바 공간 확보
+  padding-bottom: 60px;
 `;
 
 const TitleContainer = styled.div`
@@ -89,7 +89,21 @@ const HomePage = () => {
 
   const handleButtonClick = () => {
     console.log(`입력된 포인트: ${inputPoint}`);
+    // API
   };
+
+  // const [challenges, setChallenges] = useState([]);
+  // useEffect(() => {
+  //   const fetchChallenges = async () => {
+  //     try {
+  //       const data = await get_challenge_list();
+  //       setChallenges(data);
+  //     } catch (error) {
+  //       console.error('Failed to fetch challenges', error);
+  //     }
+  //   };
+  //   fetchChallenges();
+  // }, []);
 
   const challenges = [
     {
