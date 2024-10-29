@@ -65,8 +65,8 @@ const ChallengeList = () => {
 
   return (
     <>
+      <Header title="진행 중인 챌린지" />
       <Container>
-        <Header title="진행 중인 챌린지" />
         <ChallengeListContainer>
           {challenges.map((challenge) => (
             <div key={challenge.id} onClick={() => handleChallengeClick(challenge)}>

@@ -93,26 +93,28 @@ const ChallengeDetail = () => {
   }
 
   return (
-    <Container>
+    <>
       <Header title={challenge.title} />
-      <ChallengeInfo>
-        <Title>{challenge.title}</Title>
-        <Description>{challenge.description}</Description>
-        <DateText>{challenge.startDate} - {challenge.endDate}</DateText>
-        <Reward>보상: {challenge.reward}</Reward>
-        <Button text="참여하기" onClick={() => console.log("참여하기 버튼 클릭됨")} />
-      </ChallengeInfo>
+      <Container>
+        <ChallengeInfo>
+          <Title>{challenge.title}</Title>
+          <Description>{challenge.description}</Description>
+          <DateText>{challenge.startDate} - {challenge.endDate}</DateText>
+          <Reward>보상: {challenge.reward}</Reward>
+          <Button text="참여하기" onClick={() => console.log("참여하기 버튼 클릭됨")} />
+        </ChallengeInfo>
 
-      <ReviewsContainer>
-        <ReviewTitle>참여 후기</ReviewTitle>
-        {challenge.reviews.map((review) => (
-          <Review key={review.id}>
-            <ReviewText>{review.text}</ReviewText>
-            <ReviewDate>{review.date}</ReviewDate>
-          </Review>
-        ))}
-      </ReviewsContainer>
-    </Container>
+        <ReviewsContainer>
+          <ReviewTitle>참여 후기</ReviewTitle>
+          {challenge.reviews.map((review) => (
+            <Review key={review.id}>
+              <ReviewText>{review.text}</ReviewText>
+              <ReviewDate>{review.date}</ReviewDate>
+            </Review>
+          ))}
+        </ReviewsContainer>
+      </Container>
+    </>
   );
 };
 
