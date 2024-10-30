@@ -11,7 +11,7 @@ const Container = styled.div`
   padding: 20px;
   background-color: ${COLORS.gray};
   box-sizing: border-box;
-  padding-bottom: 60px;
+  padding-bottom: 100px;
   min-height: 100vh;
 `;
 
