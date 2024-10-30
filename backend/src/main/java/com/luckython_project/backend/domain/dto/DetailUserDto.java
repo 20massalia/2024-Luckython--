@@ -8,13 +8,9 @@ import lombok.Getter;
 // 유저 정보 반환 DTO
 public class DetailUserDto {
     private Long userId;
-
     private String username;
-
     private Integer point;
-
     private Integer participation;
-
     private Integer success;
 
     @Builder
