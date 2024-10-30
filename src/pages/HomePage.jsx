@@ -74,14 +74,6 @@ const Input = styled.input`
   }
 `;
 
-const FixedNavBar = styled(NavBar)`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-`;
-
 const HomePage = () => {
   const [inputPoint, setInputPoint] = useState('');
   const [mustSpin, setMustSpin] = useState(false);
@@ -193,7 +185,6 @@ const HomePage = () => {
           </InputContainer>
         </RouletteContainer>
       </Container>
-      <FixedNavBar />
     </>
   );
 };
