@@ -4,8 +4,10 @@ import styled from 'styled-components';
 import ChallengeCard from '../components/ChallengeCard';
 import Header from '../components/Header';
 import Button from '../components/Button';
+import NavBar from '../components/NavBar';
 import { COLORS } from '../utils/color';
 import ChevronIcon from '../assets/icons/Chevron.svg';
+import { Wheel } from 'react-custom-roulette';
 
 const Container = styled.div`
   padding: 20px;
@@ -44,26 +46,19 @@ const RouletteContainer = styled.div`
   border-radius: 16px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
-`;
-
-const RouletteImage = styled.div`
-  width: 100%;
-  height: 150px;
-  background-color: #e0e0e0;
-  border-radius: 50%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  color: #666;
-  margin-bottom: 20px;
+  margin: 0 auto;
 `;
 
 const InputContainer = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: center;
 `;
 
 const Input = styled.input`
@@ -71,7 +66,7 @@ const Input = styled.input`
   font-size: 16px;
   border: 1px solid ${COLORS.grayblue};
   border-radius: 100px;
-  width: 300px;
+  width: 200px;
   text-align: center;
 
   &::placeholder {
@@ -79,8 +74,18 @@ const Input = styled.input`
   }
 `;
 
+const FixedNavBar = styled(NavBar)`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+`;
+
 const HomePage = () => {
   const [inputPoint, setInputPoint] = useState('');
+  const [mustSpin, setMustSpin] = useState(false);
+  const [prizeNumber, setPrizeNumber] = useState(0);
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -90,6 +95,8 @@ const HomePage = () => {
   const handleButtonClick = () => {
     console.log(`입력된 포인트: ${inputPoint}`);
     // API
+    setPrizeNumber(Math.floor(Math.random() * data.length));
+    setMustSpin(true);
   };
 
   // const [challenges, setChallenges] = useState([]);
@@ -126,12 +133,15 @@ const HomePage = () => {
     },
   ];
 
-  const userData = {
-    username: 'Kim',
-    point: 500,
-    participation: 35,
-    success: 70,
-  };
+  // 룰렛 데이터
+  const data = [
+    { option: '100' },
+    { option: '200' },
+    { option: '300' },
+    { option: '500' },
+    { option: '1000' },
+    { option: '2000' },
+  ];
 
   return (
     <>
@@ -160,8 +170,18 @@ const HomePage = () => {
 
         <SectionTitle>포인트 내기</SectionTitle>
         <RouletteContainer>
-          <p>현재 나의 포인트: {userData.point}점</p>
-          <RouletteImage>룰렛 이미지</RouletteImage>
+          <p>현재 나의 포인트: 108점</p>
+          <Wheel
+            mustStartSpinning={mustSpin}
+            prizeNumber={prizeNumber}
+            data={data}
+            onStopSpinning={() => setMustSpin(false)}
+            backgroundColors={[COLORS.grayblue, COLORS.mint]}
+            textColors={[COLORS.white]}
+            outerBorderWidth={8}
+            innerRadius={20}
+            radius={90}
+          />
           <InputContainer>
             <Input 
               type="number" 
@@ -173,6 +193,7 @@ const HomePage = () => {
           </InputContainer>
         </RouletteContainer>
       </Container>
+      <FixedNavBar />
     </>
   );
 };
