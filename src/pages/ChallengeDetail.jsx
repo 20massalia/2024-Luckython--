@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '../components/Header';
+import ChallengeHeader from '../components/ChallengeHeader';
 import { COLORS } from '../utils/color';
 import Button from '../components/Button';
 
@@ -76,6 +76,7 @@ const ReviewDate = styled.span`
 const ChallengeDetail = () => {
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const [challenge, setChallenge] = useState(location.state);
 
   useEffect(() => {
@@ -88,20 +89,32 @@ const ChallengeDetail = () => {
     }
   }, [id, challenge]);
 
+  const handleJoinClick = () => {
+    const confirmed = window.confirm('참여하시겠습니까?');
+    
+    if (confirmed) {
+      // '할래' 선택 시 handleJoinClick 실행
+      navigate(`/challenge-photo/${id}`, { state: challenge });
+    } else {
+      // '말래' 선택 시 메시지 출력
+      alert('이걸 빼?');
+    }
+  };
+
   if (!challenge) {
     return <Container>해당 챌린지의 정보를 찾을 수 없습니다.</Container>;
   }
 
   return (
     <>
-      <Header title={challenge.title} />
+      <ChallengeHeader title={challenge.title} />
       <Container>
         <ChallengeInfo>
           <Title>{challenge.title}</Title>
           <Description>{challenge.description}</Description>
           <DateText>{challenge.startDate} - {challenge.endDate}</DateText>
           <Reward>보상: {challenge.reward}</Reward>
-          <Button text="참여하기" onClick={() => console.log("참여하기 버튼 클릭됨")} />
+          <Button text="할래!" onClick={handleJoinClick} />
         </ChallengeInfo>
 
         <ReviewsContainer>

@@ -19,3 +19,12 @@ export const put_challenge = async (chId, userId) => {
   const response = await axios.put(`/api/challenge/${chId}/${userId}`);
   return response;
 }
+
+export const post_challenge_image = async (chId, userId, chImg) => {
+  const response = await axios.post(`/api/challenge/image`, {
+    chId,
+    userId,
+    chImg
+  });
+  return response;
+};

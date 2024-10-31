@@ -7,6 +7,7 @@ import MyPage from './pages/MyPage';
 import UserRank from './pages/UserRank';
 import NavBar from './components/NavBar';
 import ChallengeDetail from './pages/ChallengeDetail';
+import ChallengePhoto from './pages/ChallengePhoto';
 
 function App() {
   const location = useLocation();
@@ -21,6 +22,7 @@ function App() {
         <Route path="/challenges" element={<ChallengeList />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/challenges/:id" element={<ChallengeDetail />} />
+        <Route path="/challenge-photo/:id" element={<ChallengePhoto />} />
       </Routes>
 
       {showNavBar.includes(location.pathname) && <NavBar />}

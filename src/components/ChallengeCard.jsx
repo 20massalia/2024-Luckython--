@@ -14,6 +14,7 @@ const CardContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 const Image = styled.img`
