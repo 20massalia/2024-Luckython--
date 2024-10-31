@@ -18,6 +18,7 @@ const NavContainer = styled.div`
   box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
   padding: 10px 0;
   font-size: 16px;
+  z-index: 10000;
 `;
 
 const NavItem = styled.div`
