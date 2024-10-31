@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import ChallengeCard from '../components/ChallengeCard';
-import Header from '../components/Header';
-import NavBar from '../components/NavBar';
+import ChallengeHeader from '../components/ChallengeHeader';
 import { COLORS } from '../utils/color';
 
 const Container = styled.div`
@@ -65,7 +64,7 @@ const ChallengeList = () => {
 
   return (
     <>
-      <Header title="진행 중인 챌린지" />
+      <ChallengeHeader title={"진행 중인 챌린지"} />
       <Container>
         <ChallengeListContainer>
           {challenges.map((challenge) => (
