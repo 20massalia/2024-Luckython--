@@ -11,18 +11,18 @@ import java.time.LocalDate;
 public class ChallengeDto {
     private String title;
     private String content;
-    private Long userId;
     private String hashtag;
-    private LocalDate date;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private Integer prize;
 
     @Builder
-    public ChallengeDto(String title, String content, Long userId, String hashtag, LocalDate date, Integer prize) {
+    public ChallengeDto(String title, String content, Long userId, String hashtag, LocalDate startDate, LocalDate endDate, Integer prize) {
         this.title = title;
         this.content = content;
-        this.userId = userId;
         this.hashtag = hashtag;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.prize = prize;
     }
 }

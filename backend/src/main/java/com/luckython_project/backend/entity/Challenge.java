@@ -30,7 +30,10 @@ public class Challenge {
     private String hashtag;
 
     @Column
-    private LocalDate date;
+    private LocalDate startDate;
+
+    @Column
+    private LocalDate endDate;
 
     @Column(length = 50)
     private String chImg;
@@ -39,26 +42,34 @@ public class Challenge {
     private Integer prize;
 
     @Builder
-    public Challenge(Long chId, String title, String content, List<UserChallenge> userChallenges, String hashtag, LocalDate date, String chImg, Integer prize) {
+    public Challenge(Long chId, String title, String content, List<UserChallenge> userChallenges, String hashtag, LocalDate startDate, LocalDate endDate, String chImg, Integer prize) {
         this.chId = chId;
         this.title = title;
         this.content = content;
         this.userChallenges = userChallenges;
         this.hashtag = hashtag;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.chImg = chImg;
         this.prize = prize;
     }
 
+
+    //인증을 안햇네 관리자 같은거 ㅋㅋ
     public void updateChallenge(ChallengeDto challengeDto) {
         this.title = challengeDto.getTitle();
         this.content = challengeDto.getContent();
         this.hashtag = challengeDto.getHashtag();
-        this.date = challengeDto.getDate();
+        this.startDate = challengeDto.getStartDate();
+        this.endDate = challengeDto.getEndDate();
         this.prize = challengeDto.getPrize();
     }
 
     public void updateImg(ImageDto imageDto){
         this.chImg = imageDto.getChImg();
+    }
+
+    public void addUserChallenge(UserChallenge userChallenge) {
+        this.userChallenges.add(userChallenge);
     }
 }

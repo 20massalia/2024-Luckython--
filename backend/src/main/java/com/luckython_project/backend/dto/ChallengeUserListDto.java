@@ -1,7 +1,9 @@
 package com.luckython_project.backend.dto;
 
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class ChallengeUserListDto {
     private Long chId;
     private String title;

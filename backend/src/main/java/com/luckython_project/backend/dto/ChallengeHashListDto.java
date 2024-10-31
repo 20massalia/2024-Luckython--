@@ -10,15 +10,17 @@ public class ChallengeHashListDto {
     private Long chId;
     private String title;
     private String content;
-    private LocalDate date;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private Integer participants;
 
     @Builder
-    public ChallengeHashListDto(Long chId, String title, String content, LocalDate date, Integer participants) {
+    public ChallengeHashListDto(Long chId, String title, String content, LocalDate startDate, LocalDate endDate, Integer participants) {
         this.chId = chId;
         this.title = title;
         this.content = content;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.participants = participants;
     }
 }

@@ -12,10 +12,9 @@ import java.util.List;
 @Repository
 public interface UserChallengeRepository extends JpaRepository<UserChallenge, Long> {
 
-    @Query("SELECT count(*) FROM UserChallenge WHERE challenge.chId=:chId")
-    Integer getCountByChallenge(Long chId);
-
     List<UserChallenge> findAllByUser_UserId(Long userId);
+
+    Integer countByChallenge(Challenge challenge);
 
 
 }

@@ -1,9 +1,6 @@
 package com.luckython_project.backend.controller;
 
-import com.luckython_project.backend.dto.ChallengeDto;
-import com.luckython_project.backend.dto.ChallengeHashListDto;
-import com.luckython_project.backend.dto.ChallengeUserListDto;
-import com.luckython_project.backend.dto.ImageDto;
+import com.luckython_project.backend.dto.*;
 import com.luckython_project.backend.entity.UserChallenge;
 import com.luckython_project.backend.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +24,13 @@ public class ChallengeController {
     }
 
     // 2. 아이디 별 챌린지 조회하기
-    @GetMapping("/{userId}")
+    @GetMapping("/userId")
     public ResponseEntity<List<ChallengeUserListDto>> getUserChallenge(@RequestParam("userId") Long userId){
         List<ChallengeUserListDto> challenges = challengeService.getUserChallenge(userId);
         return ResponseEntity.ok(challenges);
     }
 
-    // 3. 해시태그별 챌린지 목록 조회하기 ?써서 받기
+    // 3. 해시태그별 챌린지 목록 조회하기
     @GetMapping("/hashtag")
     public ResponseEntity<List<ChallengeHashListDto>> getChallengesByHashtag(@RequestParam("tag") String hashtag) {
         List<ChallengeHashListDto> challenges = challengeService.getChallengesByHashtag(hashtag);
@@ -42,14 +39,14 @@ public class ChallengeController {
 
     // 4. 챌린지 수정하기
     @PutMapping("/{chId}")
-    public ResponseEntity<String> updateChallenge(@PathVariable Long chId, @RequestBody ChallengeDto challengeDto) {
+    public ResponseEntity<String> updateChallenge(@PathVariable("chId") Long chId, @RequestBody ChallengeDto challengeDto) {
         challengeService.updateChallenge(chId, challengeDto);
         return ResponseEntity.ok("Challenge updated successfully");
     }
 
     // 5. 챌린지 삭제하기
     @DeleteMapping("/{chId}")
-    public ResponseEntity<String> deleteChallenge(@PathVariable Long chId) {
+    public ResponseEntity<String> deleteChallenge(@PathVariable("chId") Long chId) {
         challengeService.deleteChallenge(chId);
         return ResponseEntity.ok("Challenge deleted successfully");
     }
@@ -63,8 +60,14 @@ public class ChallengeController {
 
     // 7. 챌린지 참여하기
     @PutMapping()
-    public ResponseEntity<UserChallenge> participateInChallenge(@RequestParam("chId") Long chId, @RequestParam("userId") Long userId) {
-        challengeService.participateInChallenge(chId, userId);
-        return ResponseEntity.ok(new UserChallenge());
+    public ResponseEntity<UserChallengeResponseDto> participateInChallenge(@RequestParam("chId") Long chId, @RequestParam("userId") Long userId) {
+        return ResponseEntity.ok(challengeService.participateInChallenge(chId, userId));
+    }
+
+    // 8. 모든 챌린지 조회하기
+    @GetMapping()
+    public ResponseEntity<List<ChallengeHashListDto>> getChallengesAll() {
+        List<ChallengeHashListDto> challenges = challengeService.getAllChallenges();
+        return ResponseEntity.ok(challenges);
     }
 }

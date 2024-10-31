@@ -14,11 +14,11 @@ public class UserChallenge {
     private Long userChallengeId;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable = false)
+    @JoinColumn(name="userId", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="ch_id", nullable = false)
+    @JoinColumn(name="chId", nullable = false)
     private Challenge challenge;
 
     @Builder
