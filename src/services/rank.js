@@ -1,6 +1,7 @@
-import axios from "axios";
+import axiosInstance from "./axiosInstance";
 
+// 랭킹 불러오기
 export const get_ranking = async () => {
-  const response = await axios.get(`/api/ranking`);
+  const response = await axiosInstance.get(`/api/ranking`);
   return response;
-}
+};
