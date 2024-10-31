@@ -173,6 +173,7 @@ const HomePage = () => {
             outerBorderWidth={8}
             innerRadius={20}
             radius={90}
+            spinDuration = {0.3}
           />
           <InputContainer>
             <Input 
