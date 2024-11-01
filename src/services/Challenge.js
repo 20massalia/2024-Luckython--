@@ -37,3 +37,9 @@ export const certifyChallengeWithImage = async (chId, userId, imageUrl) => {
   });
   return response.data;
 };
+
+// 해시태그별 챌린지 목록 조회
+export const getChallengesByHashtag = async (hashtag) => {
+  const response = await axiosInstance.get(`/api/challenge/hashtag?tag=${hashtag}`);
+  return response.data;
+};

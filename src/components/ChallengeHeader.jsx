@@ -65,7 +65,7 @@ const ChallengeHeader = ({ title, onTagClick, selectedTag }) => {
               key={tag}
               label={tag}
               isActive={selectedTag === tag} // 현재 선택된 태그와 비교하여 활성 상태 설정
-              onClick={() => onTagClick(tag)}
+              onClick={() => onTagClick(tag)} // onTagClick을 사용해 태그 필터링 처리
             />
           ))}
         </TagContainer>

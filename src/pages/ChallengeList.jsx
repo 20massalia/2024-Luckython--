@@ -21,6 +21,7 @@ const ChallengeListContainer = styled.div`
 
 const ChallengeList = () => {
   const [challenges, setChallenges] = useState([]);
+  const [selectedTag, setSelectedTag] = useState("전체");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +36,11 @@ const ChallengeList = () => {
     fetchAllChallenges();
   }, []);
 
+  const handleTagClick = (tag) => {
+    setSelectedTag(tag);
+    // 여기에 태그에 따른 챌린지 필터링 로직을 추가할 수 있습니다.
+  };
+
   const handleChallengeClick = (challenge) => {
     navigate(`/challenges/${challenge.chId}`, {
       state: challenge,
@@ -44,7 +50,7 @@ const ChallengeList = () => {
 
   return (
     <>
-      <ChallengeHeader title={"진행 중인 챌린지"} />
+      <ChallengeHeader title={"진행 중인 챌린지"} onTagClick={handleTagClick} selectedTag={selectedTag} />
       <Container>
         <ChallengeListContainer>
           {challenges.map((challenge) => (
