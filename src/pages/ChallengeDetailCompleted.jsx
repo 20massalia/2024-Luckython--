@@ -83,22 +83,19 @@ const ChallengeDetailCompleted = () => {
     const fetchChallenge = async () => {
       try {
         const response = await axios.get(`/api/challenge/${id}`);
+        console.log("Fetched challenge data:", response.data);
         setChallenge(response.data);
       } catch (error) {
         console.error("Failed to fetch challenge:", error);
       }
     };
-
+  
     fetchChallenge();
   }, [id]);
 
   const handleReviewClick = () => {
     navigate(`/challenges/${id}/review`);
   };
-
-  if (!challenge) {
-    return <Container>해당 챌린지의 정보를 찾을 수 없습니다.</Container>;
-  }
 
   return (
     <>
