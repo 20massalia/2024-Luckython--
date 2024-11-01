@@ -1,16 +1,16 @@
 package com.luckython_project.backend.dto;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Getter
+@NoArgsConstructor
 public class ReviewDto {
-    private Long userId;
     private String review;
 
     @Builder
-    public ReviewDto(Long userId, String review) {
-        this.userId = userId;
+    public ReviewDto(String review) {
         this.review = review;
     }
 }

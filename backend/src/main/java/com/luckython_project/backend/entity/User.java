@@ -49,4 +49,9 @@ public class User {
         this.participation = this.participation + updateUserDto.getIn();
         this.success = this.success + updateUserDto.getSuccess();
     }
+
+    // 리뷰 후 포인트
+    public void addPoint(int point) {
+        this.point += point;
+    }
 }

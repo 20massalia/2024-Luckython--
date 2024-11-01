@@ -1,11 +1,9 @@
 package com.luckython_project.backend.entity;
 
-import com.luckython_project.backend.entity.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Entity
 @Getter
@@ -17,20 +15,21 @@ public class Review {
     private Long reviewId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "challenge_id", nullable = false)
+    @JoinColumn(name = "chId", nullable = false)
     private Challenge challenge;
 
     @Column(name = "review", columnDefinition = "TEXT")
     private String review;
 
     @Builder
-    public Review(Long reviewId, User user, String review) {
+    public Review(Long reviewId, User user, Challenge challenge, String review) {
         this.reviewId = reviewId;
         this.user = user;
+        this.challenge = challenge;
         this.review = review;
     }
 }
