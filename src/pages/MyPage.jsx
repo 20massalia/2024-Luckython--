@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import { COLORS } from '../utils/color';
 import PointIcon from '../assets/icons/Point.svg';
 import StarIcon from '../assets/icons/Star.svg';
 import CheckedIcon from '../assets/icons/Checked.svg';
+import { get_user } from '../api/user'; // Import the get_user function from user.js
 
 const Container = styled.div`
   display: flex;
@@ -45,12 +46,26 @@ const Icon = styled.img`
 `;
 
 const MyPage = () => {
-  const userData = {
-    username: 'Kim',
-    point: 500,
-    participation: 35,
-    success: 70,
-  };
+  const [userData, setUserData] = useState(null); // State to hold user data
+  const userId = process.env.REACT_APP_USER_ID; // Fetch the userId from environment variables
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const data = await get_user(userId); // Call the get_user function to fetch data
+        setUserData(data); // Set the data to the state
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]); // Dependency array includes userId
+
+  // If userData is not yet loaded, display a loading message
+  if (!userData) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
