@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; 
 import styled from 'styled-components';
 import { COLORS } from '../utils/color';
 import { put_user_point } from '../services/user';
@@ -26,6 +26,33 @@ const Image = styled.img`
   margin-right: 16px;
 `;
 
+const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Title = styled.h3`
+  font-size: 18px;
+  margin: 0 0 8px 0;
+`;
+
+const Description = styled.p`
+  font-size: 14px;
+  margin: 0 0 12px 0;
+  color: ${({ isCompleted }) => (isCompleted ? 'white' : 'gray')};
+`;
+
+const DateText = styled.span`
+  font-size: 12px;
+  color: ${({ isCompleted }) => (isCompleted ? 'white' : COLORS.gray)};
+`;
+
+const ParticipantsText = styled.span`
+  font-size: 12px;
+  color: ${({ isCompleted }) => (isCompleted ? 'white' : COLORS.gray)};
+  font-weight: bold;
+`;
+
 const handlePointUpdate = async (userId, point) => {
   try {
     await put_user_point(userId, point);
@@ -35,14 +62,25 @@ const handlePointUpdate = async (userId, point) => {
   }
 };
 
-const ChallengeCard = ({ isCompleted, userId, point, title, description, imageUrl }) => (
+const ChallengeCard = ({ 
+  isCompleted, 
+  userId, 
+  point, 
+  title, 
+  description, 
+  imageUrl, 
+  startDate, 
+  endDate, 
+  participants 
+}) => (
   <CardContainer isCompleted={isCompleted} onClick={() => handlePointUpdate(userId, point)}>
     <Image src={imageUrl} alt="challenge image" />
-    <div>
-      <h3>{title}</h3>
-      <p>{description}</p>
-      <span>Points: {point}</span>
-    </div>
+    <InfoContainer>
+      <Title>{title}</Title>
+      <Description isCompleted={isCompleted}>{description}</Description>
+      <DateText isCompleted={isCompleted}>{startDate} - {endDate}</DateText>
+      <ParticipantsText isCompleted={isCompleted}>{participants}명 참가중</ParticipantsText>
+    </InfoContainer>
   </CardContainer>
 );
 
