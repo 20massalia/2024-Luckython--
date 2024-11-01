@@ -40,6 +40,15 @@ const Textarea = styled.textarea`
   margin-bottom: 20px;
 `;
 
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid ${COLORS.grayblue};
+  border-radius: 8px;
+  margin-bottom: 20px;
+`;
+
 const SubmitButton = styled.button`
   background-color: ${COLORS.blue};
   color: white;
@@ -54,21 +63,16 @@ const ChallengeReview = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [review, setReview] = useState("");
-
-  const userId = process.env.REACT_APP_USER_ID || 1;
+  const [point, setPoint] = useState(0);
 
   const handleReviewSubmit = async () => {
-    if (review.trim() === "") {
-      alert("후기를 작성해 주세요!");
+    if (review.trim() === "" || point <= 0) {
+      alert("후기와 포인트를 올바르게 입력해 주세요!");
       return;
     }
 
-    console.log(`Submitting review for Challenge ID: ${id}, User ID: ${userId}`);
-    console.log(`Review Content: ${review}`);
-
     try {
-      const response = await axios.post(`/api/review/${id}/${userId}`, { review });
-      console.log("Review submitted successfully:", response.data);
+      await axios.post(`/api/review/${id}/1`, { review, point });
       alert("후기가 작성되었습니다!");
       navigate(`/challenges/${id}`);
     } catch (error) {
@@ -85,6 +89,12 @@ const ChallengeReview = () => {
           value={review}
           onChange={(e) => setReview(e.target.value)}
           placeholder="챌린지 후기를 작성해 주세요"
+        />
+        <Input
+          type="number"
+          value={point}
+          onChange={(e) => setPoint(Number(e.target.value))}
+          placeholder="포인트를 입력해 주세요"
         />
         <SubmitButton onClick={handleReviewSubmit}>작성 완료!</SubmitButton>
       </ReviewContainer>
