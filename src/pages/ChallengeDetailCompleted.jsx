@@ -5,6 +5,8 @@ import ChallengeHeader from '../components/ChallengeHeader';
 import { COLORS } from '../utils/color';
 import Button from '../components/Button';
 import axios from '../services/axiosInstance';
+import { getChallengesByUser } from "../services/Challenge";
+import { getChallengeById } from "../services/Challenge";
 
 const Container = styled.div`
   padding: 20px;
