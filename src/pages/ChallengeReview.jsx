@@ -50,7 +50,7 @@ const Input = styled.input`
 `;
 
 const SubmitButton = styled.button`
-  background-color: ${COLORS.blue};
+  background-color: black; /* 버튼 색상을 검은색으로 변경 */
   color: white;
   padding: 10px 20px;
   border: none;
@@ -74,7 +74,7 @@ const ChallengeReview = () => {
     try {
       await axios.post(`/api/review/${id}/1`, { review, point });
       alert("후기가 작성되었습니다!");
-      navigate(`/challenges/${id}`);
+      navigate(`/`); // HomePage로 이동
     } catch (error) {
       console.error("Failed to submit review:", error);
       alert("후기 작성에 실패하였습니다.");

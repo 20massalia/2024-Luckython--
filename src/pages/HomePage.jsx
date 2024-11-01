@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ChallengeCard from '../components/ChallengeCard';
@@ -8,6 +8,8 @@ import NavBar from '../components/NavBar';
 import { COLORS } from '../utils/color';
 import ChevronIcon from '../assets/icons/Chevron.svg';
 import { Wheel } from 'react-custom-roulette';
+import { get_user, put_user_point } from '../services/user';
+import { getChallengeList } from '../services/Challenge';
 
 const Container = styled.div`
   padding: 20px;
@@ -78,115 +80,136 @@ const HomePage = () => {
   const [inputPoint, setInputPoint] = useState('');
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
+  const [userPoints, setUserPoints] = useState(null);
+  const [challenges, setChallenges] = useState([]);
   const navigate = useNavigate();
+  const userId = process.env.REACT_APP_USER_ID;
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!userId) {
+        console.error('User ID is not defined');
+        return;
+      }
+      try {
+        const data = await get_user(userId);
+        console.log(data);
+        if (data) {
+          setUserPoints(data.point);
+        } else {
+          console.error('Invalid user data format:', data);
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    const fetchChallengeData = async () => {
+      try {
+        const data = await getChallengeList();
+        setChallenges(data.slice(0, 2)); // 두 개의 챌린지만 가져오기
+      } catch (error) {
+        console.error('Error fetching challenge data:', error);
+      }
+    };
+
+    fetchUserData();
+    fetchChallengeData();
+  }, [userId]);
 
   const handleInputChange = (e) => {
-    setInputPoint(e.target.value);
+    setInputPoint(Number(e.target.value));
   };
 
   const handleButtonClick = () => {
+    if (userPoints < inputPoint) {
+      alert('포인트가 부족합니다.');
+      return;
+    }
+
     console.log(`입력된 포인트: ${inputPoint}`);
-    // API
+    console.log(`현재 포인트: ${userPoints}`);
     setPrizeNumber(Math.floor(Math.random() * data.length));
     setMustSpin(true);
   };
 
-  // const [challenges, setChallenges] = useState([]);
-  // useEffect(() => {
-  //   const fetchChallenges = async () => {
-  //     try {
-  //       const data = await get_challenge_list();
-  //       setChallenges(data);
-  //     } catch (error) {
-  //       console.error('Failed to fetch challenges', error);
-  //     }
-  //   };
-  //   fetchChallenges();
-  // }, []);
-
-  const challenges = [
-    {
-      title: "개구리 귀엽게 그리기 챌린지",
-      description: "개구리를 귀엽게 그리는 챌린지입니다! 그림에 자신이 있다면 참여해보세요.",
-      startDate: "24.10.15",
-      endDate: "24.11.15",
-      participants: 1000,
-      image: "/path/to/image1.png",
-      isCompleted: false,
-    },
-    {
-      title: "하루 만보 걷기 챌린지",
-      description: "건강을 위해 하루에 만보 걷기를 목표로 합니다.",
-      startDate: "24.10.15",
-      endDate: "24.11.15",
-      participants: 800,
-      image: "/path/to/image2.png",
-      isCompleted: false,
-    },
-  ];
+  const handleSpinEnd = async () => {
+    setMustSpin(false);
+    const multiplier = parseFloat(data[prizeNumber].option.replace('배', ''));
+    const gainedPoints = inputPoint * multiplier;
+    const newPoints = userPoints - inputPoint + gainedPoints;
+    console.log(`새로운 포인트: ${newPoints}`);
+    try {
+      await put_user_point(userId, gainedPoints - inputPoint);
+      setUserPoints(newPoints);
+      console.log('User points updated successfully');
+    } catch (error) {
+      console.error('Failed to update user points:', error);
+    }
+  };
 
   // 룰렛 데이터
   const data = [
-    { option: '100' },
-    { option: '200' },
-    { option: '300' },
-    { option: '500' },
-    { option: '1000' },
-    { option: '2000' },
+    { option: '2배' },
+    { option: '1.5배' },
+    { option: '1배' },
+    { option: '0.75배' },
+    { option: '0.5배' },
+    { option: '0.25배' },
   ];
 
   return (
-    <>
-      <Header title="할래? 말래?" />
-      <Container>
-        <TitleContainer onClick={() => navigate('/challenges')}>
-          <SectionTitle>진행 중인 챌린지</SectionTitle>
-          <Icon src={ChevronIcon} alt="Chevron icon" />
-        </TitleContainer>
-        <ChallengeList>
-          {challenges
-            .filter((challenge) => !challenge.isCompleted)
-            .map((challenge, index) => (
-              <ChallengeCard
-                key={index}
-                title={challenge.title}
-                description={challenge.description}
-                startDate={challenge.startDate}
-                endDate={challenge.endDate}
-                participants={challenge.participants}
-                image={challenge.image}
-                isCompleted={challenge.isCompleted}
-              />
-            ))}
-        </ChallengeList>
+      <>
+        <Header title="할래? 말래?" />
+        <Container>
+          <TitleContainer onClick={() => navigate('/challenges')}>
+            <SectionTitle>진행 중인 챌린지</SectionTitle>
+            <Icon src={ChevronIcon} alt="Chevron icon" />
+          </TitleContainer>
+          <ChallengeList>
+            {challenges
+                .filter((challenge) => !challenge.isCompleted)
+                .map((challenge, index) => (
+                    <ChallengeCard
+                        key={index}
+                        title={challenge.title}
+                        description={challenge.description}
+                        startDate={challenge.startDate}
+                        endDate={challenge.endDate}
+                        participants={challenge.participants}
+                        image={challenge.image}
+                        isCompleted={challenge.isCompleted}
+                    />
+                ))}
+          </ChallengeList>
 
-        <SectionTitle>포인트 내기</SectionTitle>
-        <RouletteContainer>
-          <p>현재 나의 포인트: 108점</p>
-          <Wheel
-            mustStartSpinning={mustSpin}
-            prizeNumber={prizeNumber}
-            data={data}
-            onStopSpinning={() => setMustSpin(false)}
-            backgroundColors={[COLORS.grayblue, COLORS.mint]}
-            textColors={[COLORS.white]}
-            outerBorderWidth={8}
-            innerRadius={20}
-            radius={90}
-            spinDuration = {0.3}
-          />
-          <InputContainer>
-            <Input 
-              type="number" 
-              placeholder="내기에 걸 포인트를 입력해주세요!" 
-              value={inputPoint} 
-              onChange={handleInputChange} 
+          <SectionTitle>포인트 내기</SectionTitle>
+          <RouletteContainer>
+            <p>현재 나의 포인트: {userPoints !== null ? `${userPoints}점` : '로딩 중...'}</p>
+            <Wheel
+                mustStartSpinning={mustSpin}
+                prizeNumber={prizeNumber}
+                data={data}
+                onStopSpinning={handleSpinEnd}
+                backgroundColors={[COLORS.grayblue, COLORS.mint]}
+                textColors={[COLORS.white]}
+                outerBorderWidth={8}
+                innerRadius={20}
+                radius={90}
+                spinDuration={0.3}
             />
-            <Button text="돌릴래!" onClick={handleButtonClick} />
-          </InputContainer>
-        </RouletteContainer>
-      </Container>
-    </>
+            <InputContainer>
+              <Input
+                  type="number"
+                  placeholder="내기에 걸 포인트를 입력해주세요!"
+                  value={inputPoint}
+                  onChange={handleInputChange}
+              />
+              <Button text="돌릴래!" onClick={handleButtonClick} />
+            </InputContainer>
+          </RouletteContainer>
+        </Container>
+      </>
   );
 };
 

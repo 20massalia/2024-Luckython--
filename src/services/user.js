@@ -23,9 +23,9 @@ export const get_user_challenge = async (userId) => {
 };
 
 // 사용자 정보를 업데이트하는 함수 (기본 PUT 요청)
-export const put_user = async (userId) => {
+export const put_user = async (userId, userData) => {
   try {
-    const response = await axiosInstance.put(`/api/user/${userId}`);
+    const response = await axiosInstance.put(`/api/user/${userId}`, userData);
     return response.data;
   } catch (error) {
     console.error("Error updating user data:", error);
@@ -33,7 +33,7 @@ export const put_user = async (userId) => {
   }
 };
 
-// 사용자의 포인트를 업데이트하는 함수
+// 사용자의 포인트를 업데이트하는 함수 (덮어쓰기)
 export const put_user_point = async (userId, point) => {
   try {
     const response = await axiosInstance.put(`/api/user/${userId}`, { point });
@@ -44,6 +44,7 @@ export const put_user_point = async (userId, point) => {
   }
 };
 
+
 // 사용자 등록 함수
 export const registerUser = async (userData) => {
   try {
@@ -51,17 +52,6 @@ export const registerUser = async (userData) => {
     return response.data;
   } catch (error) {
     console.error("Error registering user:", error);
-    throw error;
-  }
-};
-
-// 사용자의 포인트 업데이트 함수 (중복 기능 제거)
-export const updateUserPoints = async (userId, point) => {
-  try {
-    const response = await axiosInstance.put(`/api/user/${userId}`, { point });
-    return response.data;
-  } catch (error) {
-    console.error("Error updating user points:", error);
     throw error;
   }
 };
