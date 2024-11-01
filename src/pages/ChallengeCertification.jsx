@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
-import { certifyChallengeWithImage } from '../services/Challenge';
 import { COLORS } from '../utils/color';
 
 const Container = styled.div`
@@ -63,17 +62,7 @@ const ChallengeCertification = () => {
     }
   };
 
-  const handleCertification = async () => {
-    if (!image) {
-      alert("인증 사진을 업로드해 주세요.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("chImg", image);
-
-    await certifyChallengeWithImage(id, 1, formData);
-
+  const handleCertification = () => {
     alert("인증이 완료되었습니다.");
     navigate(`/challenges/${id}/completed`, { replace: true });
   };

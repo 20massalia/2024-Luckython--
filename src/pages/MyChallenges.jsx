@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ChallengeCard from '../components/ChallengeCard';
 import Header from '../components/Header';
 import { COLORS } from '../utils/color';
 import { useNavigate } from 'react-router-dom';
+import { getChallengesByUser } from '../services/Challenge';
 
 const Container = styled.div`
   padding: 20px;
@@ -37,81 +38,68 @@ const CreateButton = styled.button`
 
 const MyChallenges = () => {
   const navigate = useNavigate();
-  
-  const ongoingChallenges = [
-    {
-      title: "개구리 귀엽게 그리기 챌린지",
-      description: "개구리를 귀엽게 그리는 챌린지입니다!",
-      startDate: "24.10.15",
-      endDate: "24.11.15",
-      participants: 1000,
-      daysLeft: 3,
-      isCompleted: false,
-    },
-    {
-      title: "하루 만보 걷기 챌린지",
-      description: "건강을 위해 하루에 만보 걷기를 목표로 합니다.",
-      startDate: "24.10.15",
-      endDate: "24.11.15",
-      participants: 800,
-      daysLeft: 10,
-      isCompleted: false,
-    },
-  ];
+  const [ongoingChallenges, setOngoingChallenges] = useState([]);
+  const [completedChallenges, setCompletedChallenges] = useState([]);
+  const userId = process.env.REACT_APP_USER_ID; // Fetch the userId from environment variables
 
-  const completedChallenges = [
-    {
-      title: "물 마시기 챌린지",
-      description: "물을 매일 규칙적으로 마시는 챌린지입니다.",
-      startDate: "24.09.01",
-      endDate: "24.09.30",
-      participants: 500,
-      isCompleted: true,
-    },
-  ];
+  useEffect(() => {
+    const fetchChallenges = async () => {
+      try {
+        const data = await getChallengesByUser(userId);
+        const ongoing = data.filter((challenge) => !challenge.isCompleted);
+        const completed = data.filter((challenge) => challenge.isCompleted);
+        setOngoingChallenges(ongoing);
+        setCompletedChallenges(completed);
+      } catch (error) {
+        console.error('Failed to fetch user challenges:', error);
+      }
+    };
+
+    fetchChallenges();
+  }, [userId]);
 
   const handleCreateChallenge = () => {
     navigate('/create-challenge');
   };
 
   return (
-    <>
-      <Header title="나의 챌린지" />
-      <Container>
-        <SectionTitle>진행 중인 챌린지</SectionTitle>
-        <ChallengeList>
-          {ongoingChallenges.map((challenge, index) => (
-            <ChallengeCard
-              key={index}
-              title={challenge.title}
-              description={challenge.description}
-              startDate={challenge.startDate}
-              endDate={challenge.endDate}
-              participants={challenge.participants}
-              isCompleted={challenge.isCompleted}
-              daysLeft={challenge.daysLeft}
-            />
-          ))}
-        </ChallengeList>
+      <>
+        <Header title="나의 챌린지" />
+        <Container>
+          <SectionTitle>진행 중인 챌린지</SectionTitle>
+          <ChallengeList>
+            {ongoingChallenges.map((challenge, index) => (
+                <ChallengeCard
+                    key={index}
+                    title={challenge.title}
+                    description={challenge.description}
+                    startDate={challenge.startDate}
+                    endDate={challenge.endDate}
+                    participants={challenge.participants}
+                    isCompleted={challenge.isCompleted}
+                    daysLeft={challenge.daysLeft}
+                />
+            ))}
+          </ChallengeList>
 
-        <SectionTitle>완료한 챌린지</SectionTitle>
-        <ChallengeList>
-          {completedChallenges.map((challenge, index) => (
-            <ChallengeCard
-              key={index}
-              title={challenge.title}
-              description={challenge.description}
-              startDate={challenge.startDate}
-              endDate={challenge.endDate}
-              participants={challenge.participants}
-              isCompleted={challenge.isCompleted}
-            />
-          ))}
-        </ChallengeList>
+          <SectionTitle>완료한 챌린지</SectionTitle>
+          <ChallengeList>
+            {completedChallenges.map((challenge, index) => (
+                <ChallengeCard
+                    key={index}
+                    title={challenge.title}
+                    description={challenge.description}
+                    startDate={challenge.startDate}
+                    endDate={challenge.endDate}
+                    participants={challenge.participants}
+                    isCompleted={challenge.isCompleted}
+                />
+            ))}
+          </ChallengeList>
 
-        <CreateButton onClick={handleCreateChallenge}>+ 챌린지 생성하기</CreateButton>
-      </Container>
-    </>
+          <CreateButton onClick={handleCreateChallenge}>+ 챌린지 생성하기</CreateButton>
+        </Container>
+      </>
   );
 };
 

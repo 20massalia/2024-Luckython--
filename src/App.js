@@ -10,7 +10,7 @@ import ChallengeDetail from './pages/ChallengeDetail';
 import ChallengePhoto from './pages/ChallengePhoto';
 import ChallengeCertification from './pages/ChallengeCertification';
 import ChallengeDetailCompleted from './pages/ChallengeDetailCompleted';
-import ChallengeReview from './pages/ChallengeReview'; // 후기 작성 페이지 추가
+import ChallengeReview from './pages/ChallengeReview';
 import CreateChallenge from './pages/CreateChallenge';
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
         <Route path="/challenge-photo/:id" element={<ChallengePhoto />} />
         <Route path="/challenges/:id/certification" element={<ChallengeCertification />} />
         <Route path="/challenges/:id/completed" element={<ChallengeDetailCompleted />} />
-        <Route path="/challenges/:id/review" element={<ChallengeReview />} /> {/* 후기 작성 페이지 경로 추가 */}
+        <Route path="/challenges/:id/review" element={<ChallengeReview />} />
         <Route path="/create-challenge" element={<CreateChallenge />} />
       </Routes>
 
