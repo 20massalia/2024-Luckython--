@@ -26,6 +26,9 @@ public class Challenge {
     @OneToMany(mappedBy = "challenge", fetch = FetchType.LAZY)
     private List<UserChallenge> userChallenges;
 
+    @OneToMany(mappedBy = "challenge", fetch = FetchType.LAZY)
+    private List<Review> reviews;
+
     @Column(length = 10)
     private String hashtag;
 
@@ -42,11 +45,12 @@ public class Challenge {
     private Integer prize;
 
     @Builder
-    public Challenge(Long chId, String title, String content, List<UserChallenge> userChallenges, String hashtag, LocalDate startDate, LocalDate endDate, String chImg, Integer prize) {
+    public Challenge(Long chId, String title, String content, List<UserChallenge> userChallenges, List<Review> reviews, String hashtag, LocalDate startDate, LocalDate endDate, String chImg, Integer prize) {
         this.chId = chId;
         this.title = title;
         this.content = content;
         this.userChallenges = userChallenges;
+        this.reviews = reviews;
         this.hashtag = hashtag;
         this.startDate = startDate;
         this.endDate = endDate;

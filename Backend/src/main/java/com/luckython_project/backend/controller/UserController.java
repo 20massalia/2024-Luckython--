@@ -29,13 +29,6 @@ public class UserController {
                 .body(userService.createUser(user));
     }
 
-    // 유저 필드 값 수정
-    @PutMapping("/{userId}")
-    public ResponseEntity<DetailUserDto> updateUser(@PathVariable Long userId, @RequestBody UpdateUserDto updateUserDto){
-        return ResponseEntity.ok()
-                .body(userService.updateUser(userId, updateUserDto));
-    }
-
     // 유저 삭제
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId){

@@ -7,6 +7,8 @@ import lombok.Data;
 public class ImageDto {
     private String chImg;
 
+    public ImageDto() {}
+
     @Builder
     public ImageDto(String chImg) {
         this.chImg = chImg;

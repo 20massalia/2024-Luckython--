@@ -1,7 +1,11 @@
 package com.luckython_project.backend.service;
 
+import com.luckython_project.backend.config.exception.CustomException;
+import com.luckython_project.backend.config.exception.ErrorCode;
 import com.luckython_project.backend.dto.ChallengeDto.*;
+import com.luckython_project.backend.dto.ReviewDto.ReviewListDto;
 import com.luckython_project.backend.entity.Challenge;
+import com.luckython_project.backend.entity.Review;
 import com.luckython_project.backend.entity.User;
 import com.luckython_project.backend.entity.UserChallenge;
 import com.luckython_project.backend.repository.ChallengeRepository;
@@ -23,6 +27,7 @@ public class ChallengeService {
     private final ChallengeRepository challengeRepository;
     private final UserRepository userRepository;
     private final UserChallengeRepository userChallengeRepository;
+    private final ReviewService reviewService;
 
     // 1. 챌린지 생성하기
     @Transactional
@@ -38,7 +43,7 @@ public class ChallengeService {
         challengeRepository.save(challenge);
     }
 
-    // 2. 아이디 별 챌린지 조회하기
+    // 2. userId 아이디 별 챌린지 조회하기
     @Transactional(readOnly = true)
     public List<ChallengeUserListDto> getUserChallenge(Long userId) {
         return userChallengeRepository.findAllByUser_UserId(userId)
@@ -54,6 +59,23 @@ public class ChallengeService {
                             .build();
                 })
                 .collect(Collectors.toList());
+    }
+
+    // 2. chId 아이디 별 챌린지 조회하기
+    public ChallengeDetailDto getChallenge(Long chId) {
+        Challenge challenge = challengeRepository.findById(chId)
+                .orElseThrow(() -> new CustomException(ErrorCode.CHALLENGE_NOT_FOUND));
+
+        List<ReviewListDto> reviewList = reviewService.getReviewsByChallengeId(chId);
+
+        return ChallengeDetailDto.builder()
+                .title(challenge.getTitle())
+                .content(challenge.getContent())
+                .hashtag(challenge.getHashtag())
+                .endDate(challenge.getEndDate())
+                .prize(challenge.getPrize())
+                .review(reviewList)
+                .build();
     }
 
     // 3. 해시태그별 챌린지 목록 조회하기
@@ -79,7 +101,7 @@ public class ChallengeService {
     @Transactional
     public void updateChallenge(Long chId, ChallengeDto challengeDto) {
         Challenge challenge = challengeRepository.findById(chId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid challenge ID: " + chId));
+                .orElseThrow(() -> new CustomException(ErrorCode.CHALLENGE_NOT_FOUND));
         challenge.updateChallenge(challengeDto);
         challengeRepository.save(challenge);
     }
@@ -101,7 +123,6 @@ public class ChallengeService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + userId));
         challenge.updateImg(imageDto);
 
-        // TODO 빌더 반환
         UserChallenge userChallenge = UserChallenge.builder()
                 .user(user)
                 .challenge(challenge)

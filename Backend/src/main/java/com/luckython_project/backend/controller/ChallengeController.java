@@ -2,6 +2,7 @@ package com.luckython_project.backend.controller;
 
 import com.luckython_project.backend.dto.*;
 import com.luckython_project.backend.dto.ChallengeDto.*;
+import com.luckython_project.backend.entity.Challenge;
 import com.luckython_project.backend.entity.UserChallenge;
 import com.luckython_project.backend.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +25,18 @@ public class ChallengeController {
         return ResponseEntity.status(201).body("Challenge created successfully");
     }
 
-    // 2. 아이디 별 챌린지 조회하기
+    // 2. userId 아이디 별 챌린지 조회하기
     @GetMapping("/userId")
     public ResponseEntity<List<ChallengeUserListDto>> getUserChallenge(@RequestParam("userId") Long userId){
         List<ChallengeUserListDto> challenges = challengeService.getUserChallenge(userId);
         return ResponseEntity.ok(challenges);
+    }
+
+    // 2. chId 아이디 별 챌린지 조회하기
+    @GetMapping("/chId")
+    public ResponseEntity<ChallengeDetailDto> getChallenge(@RequestParam("chId") Long chId){
+        return ResponseEntity.ok()
+                .body(challengeService.getChallenge(chId));
     }
 
     // 3. 해시태그별 챌린지 목록 조회하기

@@ -30,15 +30,6 @@ public class UserService {
         return DetailUserDto.of(userRepository.save(user));
     }
 
-    // userId를 기반으로 유저 정보를 업데이트
-    @Transactional
-    public DetailUserDto updateUser(Long userId, UpdateUserDto updateUserDto) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        user.updateUser(updateUserDto.getPoint());
-        return DetailUserDto.of(user);
-    }
-
     @Transactional
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);

@@ -9,20 +9,21 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UserChallenge {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userChallengeId;
 
     @ManyToOne
-    @JoinColumn(name="userId", nullable = false)
+    @JoinColumn(name="userId", nullable = false) // 실제 DB 컬럼 이름과 일치시킴
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="chId", nullable = false)
+    @JoinColumn(name="chId", nullable = false) // 실제 DB 컬럼 이름과 일치시킴
     private Challenge challenge;
 
     @ManyToOne
-    @JoinColumn(name = "review_id")
+    @JoinColumn(name = "reviewId") // 실제 DB 컬럼 이름과 일치시킴
     private Review review;
 
     @Column(nullable = false)

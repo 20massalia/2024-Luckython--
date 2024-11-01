@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserChallengeDto {
     private Long userId;
-    private Long challengeId;
+    private Long chId;
     private Long reviewId;
 
     private Boolean isParticipated;
@@ -18,9 +18,9 @@ public class UserChallengeDto {
     private Boolean isReviewed;
 
     @Builder
-    public UserChallengeDto(Long userId, Long challengeId, Long reviewId, Boolean isParticipated, Boolean isCertified, Boolean isReviewed) {
+    public UserChallengeDto(Long userId, Long chId, Long reviewId, Boolean isParticipated, Boolean isCertified, Boolean isReviewed) {
         this.userId = userId;
-        this.challengeId = challengeId;
+        this.chId = chId;
         this.reviewId = reviewId;
         this.isParticipated = isParticipated;
         this.isCertified = isCertified;
@@ -30,7 +30,7 @@ public class UserChallengeDto {
     public static UserChallengeDto of(UserChallenge userChallenge) {
         return UserChallengeDto.builder()
                 .userId(userChallenge.getUser().getUserId())
-                .challengeId(userChallenge.getUserChallengeId())
+                .chId(userChallenge.getChallenge().getChId())
                 .reviewId(userChallenge.getReview() != null ? userChallenge.getReview().getReviewId() : null)
                 .isCertified(userChallenge.getIsCertified())
                 .isParticipated(userChallenge.getIsParticipated())
