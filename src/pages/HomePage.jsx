@@ -1,3 +1,54 @@
+// import React, { useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import styled from 'styled-components';
+// import ChallengeCard from '../components/ChallengeCard';
+// import Header from '../components/Header';
+// import Button from '../components/Button';
+// import NavBar from '../components/NavBar';
+// import { COLORS } from '../utils/color';
+// import ChevronIcon from '../assets/icons/Chevron.svg';
+// import { Wheel } from 'react-custom-roulette';
+// import { put_user_point } from '../services/user';
+
+// const Container = styled.div`
+//   padding: 20px;
+//   background-color: ${COLORS.gray};
+//   box-sizing: border-box;
+//   padding-bottom: 100px;
+//   min-height: 100vh;
+// `;
+
+// const handleRoulettePointUpdate = async (userId, point) => {
+//   try {
+//     await put_user_point(userId, point);
+//     alert('Points updated after roulette spin!');
+//   } catch (error) {
+//     console.error('Failed to update points:', error);
+//   }
+// };
+
+// const HomePage = ({ userId, point }) => {
+//   const navigate = useNavigate();
+
+//   return (
+//     <Container>
+//       <Header />
+//       <Button onClick={() => handleRoulettePointUpdate(userId, point)}>Spin Roulette</Button>
+//       <ChallengeCard
+//         isCompleted={false}
+//         userId={userId}
+//         point={point}
+//         title="Sample Challenge"
+//         description="Complete this challenge to earn points."
+//         imageUrl="path_to_image"
+//       />
+//       <NavBar />
+//     </Container>
+//   );
+// };
+
+// export default HomePage;
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';

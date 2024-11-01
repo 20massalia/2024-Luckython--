@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { COLORS } from '../utils/color';
+import { put_user_point } from '../services/user';
 
 const CardContainer = styled.div`
   width: 100%;
@@ -20,53 +21,29 @@ const CardContainer = styled.div`
 const Image = styled.img`
   width: 50px;
   height: 50px;
-  border-radius: 50%;
+  border-radius: 8px;
+  object-fit: cover;
   margin-right: 16px;
 `;
 
-const Content = styled.div`
-  flex: 1;
-`;
-
-const Title = styled.h3`
-  font-size: 18px;
-  font-weight: bold;
-  margin: 0;
-  color: inherit;
-`;
-
-const Description = styled.p`
-  font-size: 14px;
-  color: inherit;
-  margin: 8px 0;
-`;
-
-const DateText = styled.p`
-  font-size: 12px;
-  color: inherit;
-  margin: 0;
-`;
-
-const ParticipantCount = styled.p`
-  font-size: 14px;
-  font-weight: bold;
-  margin: 8px 0 0 0;
-  color: inherit;
-  text-align: right;
-`;
-
-const ChallengeCard = ({ image, title, description, startDate, endDate, participants, isCompleted }) => {
-  return (
-    <CardContainer isCompleted={isCompleted}>
-      <Image src={image} alt={`${title} 이미지`} />
-      <Content>
-        <Title>{title}</Title>
-        <Description>{description}</Description>
-        <DateText>{startDate} - {endDate}</DateText>
-        <ParticipantCount>{participants}명 참가중</ParticipantCount>
-      </Content>
-    </CardContainer>
-  );
+const handlePointUpdate = async (userId, point) => {
+  try {
+    await put_user_point(userId, point);
+    alert('Points updated successfully!');
+  } catch (error) {
+    console.error('Failed to update points:', error);
+  }
 };
+
+const ChallengeCard = ({ isCompleted, userId, point, title, description, imageUrl }) => (
+  <CardContainer isCompleted={isCompleted} onClick={() => handlePointUpdate(userId, point)}>
+    <Image src={imageUrl} alt="challenge image" />
+    <div>
+      <h3>{title}</h3>
+      <p>{description}</p>
+      <span>Points: {point}</span>
+    </div>
+  </CardContainer>
+);
 
 export default ChallengeCard;

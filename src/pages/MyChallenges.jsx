@@ -1,8 +1,59 @@
-import React from 'react';
+// import React from 'react';
+// import styled from 'styled-components';
+// import ChallengeCard from '../components/ChallengeCard';
+// import Header from '../components/Header';
+// import { COLORS } from '../utils/color';
+// import { put_user_point } from '../services/user';
+
+// const Container = styled.div`
+//   padding: 20px;
+//   background-color: ${COLORS.gray};
+//   box-sizing: border-box;
+//   padding-bottom: 60px;
+//   min-height: 100vh;
+// `;
+
+// const SectionTitle = styled.h2`
+//   font-size: 25px;
+//   font-weight: bold;
+//   margin: 16px 0 8px;
+// `;
+
+// const handleChallengePointUpdate = async (userId, point) => {
+//   try {
+//     await put_user_point(userId, point);
+//     alert('Points updated for this challenge!');
+//   } catch (error) {
+//     console.error('Failed to update points:', error);
+//   }
+// };
+
+// const MyChallenges = ({ userId, challenges }) => (
+//   <Container>
+//     <Header />
+//     <SectionTitle>My Challenges</SectionTitle>
+//     {challenges.map((challenge) => (
+//       <ChallengeCard
+//         key={challenge.id}
+//         isCompleted={challenge.isCompleted}
+//         userId={userId}
+//         point={challenge.point}
+//         title={challenge.title}
+//         description={challenge.description}
+//         imageUrl={challenge.imageUrl}
+//       />
+//     ))}
+//   </Container>
+// );
+
+// export default MyChallenges;
+
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import ChallengeCard from '../components/ChallengeCard';
 import Header from '../components/Header';
 import { COLORS } from '../utils/color';
+import { Wheel } from 'react-custom-roulette';
 
 const Container = styled.div`
   padding: 20px;
@@ -20,6 +71,16 @@ const SectionTitle = styled.h2`
 
 const ChallengeList = styled.div`
   margin-bottom: 20px;
+`;
+
+const RouletteContainer = styled.div`
+  margin: 20px 0;
+  text-align: center;
+`;
+
+const ResultText = styled.p`
+  font-size: 18px;
+  margin-top: 10px;
 `;
 
 const MyChallenges = () => {
@@ -55,6 +116,35 @@ const MyChallenges = () => {
     },
   ];
 
+  const [rouletteData] = useState([
+    { option: 100 },
+    { option: 200 },
+    { option: 300 },
+    { option: 500 },
+    { option: 1000 },
+    { option: 2000 },
+  ]);
+  const [mustSpin, setMustSpin] = useState(false);
+  const [prizeNumber, setPrizeNumber] = useState(0);
+  const [betPoints, setBetPoints] = useState(0);
+  const [totalPoints, setTotalPoints] = useState(108); // 초기 포인트 설정
+
+  const onStartRoulette = () => {
+    const newPrizeNumber = Math.floor(Math.random() * rouletteData.length);
+    setPrizeNumber(newPrizeNumber);
+    setMustSpin(true);
+  };
+
+  const handleBetPointsChange = (e) => {
+    setBetPoints(parseInt(e.target.value) || 0);
+  };
+
+  const onRouletteStop = () => {
+    setMustSpin(false);
+    const wonPoints = rouletteData[prizeNumber].option;
+    setTotalPoints(totalPoints + wonPoints + betPoints); // 총 포인트 업데이트
+  };
+
   return (
     <>
       <Header title="나의 챌린지" />
@@ -74,6 +164,27 @@ const MyChallenges = () => {
             />
           ))}
         </ChallengeList>
+
+        <RouletteContainer>
+          <SectionTitle>포인트 내기 룰렛</SectionTitle>
+          <ResultText>현재 나의 포인트: {totalPoints}점</ResultText>
+          <input
+            type="number"
+            value={betPoints}
+            onChange={handleBetPointsChange}
+            placeholder="내기에 걸 포인트를 입력해주세요"
+          />
+          <button onClick={onStartRoulette}>돌릴래!</button>
+          <Wheel
+            mustStartSpinning={mustSpin}
+            prizeNumber={prizeNumber}
+            data={rouletteData}
+            onStopSpinning={onRouletteStop}
+            backgroundColors={["#a2d2ff", "#bde0fe", "#ffafcc", "#ffc8dd", "#a2d2ff"]}
+            textColors={["#000"]}
+          />
+          <ResultText>룰렛 점수: {rouletteData[prizeNumber].option}점</ResultText>
+        </RouletteContainer>
 
         <SectionTitle>완료한 챌린지</SectionTitle>
         <ChallengeList>
