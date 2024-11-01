@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import ChallengeHeader from '../components/ChallengeHeader';
 import { COLORS } from '../utils/color';
 import Button from '../components/Button';
-import axios from '../services/axiosInstance';
-import { getChallengesByUser } from "../services/Challenge";
 import { getChallengeById } from "../services/Challenge";
 
 const Container = styled.div`
@@ -84,9 +82,9 @@ const ChallengeDetailCompleted = () => {
   useEffect(() => {
     const fetchChallenge = async () => {
       try {
-        const response = await axios.get(`/api/challenge/${id}`);
-        console.log("Fetched challenge data:", response.data);
-        setChallenge(response.data);
+        const response = await getChallengeById(id);
+        console.log("Fetched challenge data:", response);
+        setChallenge(response);
       } catch (error) {
         console.error("Failed to fetch challenge:", error);
       }
@@ -98,6 +96,10 @@ const ChallengeDetailCompleted = () => {
   const handleReviewClick = () => {
     navigate(`/challenges/${id}/review`);
   };
+
+  if (!challenge) {
+    return <Container>Loading...</Container>;
+  }
 
   return (
     <>
@@ -114,9 +116,9 @@ const ChallengeDetailCompleted = () => {
         <ReviewsContainer>
           <ReviewTitle>참여 후기</ReviewTitle>
           {challenge.reviews && challenge.reviews.length > 0 ? (
-            challenge.reviews.map((review) => (
-              <Review key={review.id}>
-                <ReviewText>{review.text}</ReviewText>
+            challenge.reviews.map((review, index) => (
+              <Review key={index}>
+                <ReviewText>{review.review}</ReviewText>
                 <ReviewDate>{review.date}</ReviewDate>
               </Review>
             ))
