@@ -31,12 +31,15 @@ export const participateInChallenge = async (chId, userId) => {
 };
 
 // 사진 인증
-export const certifyChallengeWithImage = async (chId, userId, imageUrl) => {
-  const response = await axiosInstance.post(`/api/challenge/image?chId=${chId}&userId=${userId}`, {
-    chImg: imageUrl
+export const certifyChallengeWithImage = async (chId, userId, formData) => {
+  const response = await axiosInstance.post(`/api/challenge/image?chId=${chId}&userId=${userId}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
   });
   return response.data;
 };
+
 
 // 해시태그별 챌린지 목록 조회
 export const getChallengesByHashtag = async (hashtag) => {

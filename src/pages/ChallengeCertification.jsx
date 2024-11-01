@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from '../services/axiosInstance';
-import { COLORS } from '../utils/color';
 import { certifyChallengeWithImage } from '../services/Challenge';
+import { COLORS } from '../utils/color';
 
 const Container = styled.div`
   padding: 20px;
@@ -44,7 +43,7 @@ const UploadLabel = styled.label`
 
 const CompleteButton = styled.button`
   background-color: ${COLORS.green};
-  color: ${COLORS.grayblue};
+  color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 8px;
@@ -69,16 +68,17 @@ const ChallengeCertification = () => {
       alert("인증 사진을 업로드해 주세요.");
       return;
     }
-  
+
     const formData = new FormData();
     formData.append("chImg", image);
-  
+
     try {
-      await certifyChallengeWithImage(id, 1, formData);
+      const response = await certifyChallengeWithImage(id, 1, formData);
+      console.log("Certification response:", response);
       alert("인증이 완료되었습니다.");
     } catch (error) {
       console.error("Failed to certify:", error);
-      alert("인증이 완료되었습니다!");
+      alert("인증에 실패하였습니다.");
     } finally {
       navigate(`/challenges/${id}/completed`, { replace: true });
     }
