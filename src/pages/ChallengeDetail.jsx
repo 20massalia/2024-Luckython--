@@ -85,8 +85,9 @@ const ChallengeDetail = () => {
     const fetchChallenge = async () => {
       try {
         const response = await axios.get(`/api/challenge/${id}`);
+        console.log("Challenge data:", response.data); // 데이터 확인용 콘솔 출력
         setChallenge(response.data);
-        setIsParticipating(response.data.isParticipated);
+        setIsParticipating(response.data.isParticipated); // 참여 상태 설정
       } catch (error) {
         console.error("Failed to fetch challenge:", error);
       }
@@ -102,12 +103,16 @@ const ChallengeDetail = () => {
     
     if (confirmed) {
       try {
-        await axios.put(`/api/challenge?chId=${id}&userId=1`);
+        await axios.put(`/api/challenge?chId=${id}&userId=1`); // 실제 userId로 교체 필요
         setIsParticipating(true);
       } catch (error) {
         console.error("Failed to join challenge:", error);
       }
     }
+  };
+
+  const handleCertificationPage = () => {
+    navigate(`/challenges/${id}/certification`);
   };
 
   if (!challenge) {
@@ -126,7 +131,10 @@ const ChallengeDetail = () => {
           {!isParticipating ? (
             <Button text="할래!" onClick={handleJoinClick} />
           ) : (
-            <Button text="참여 완료!" disabled />
+            <>
+              <Button text="참여 완료!" disabled />
+              <Button text="참여 인증하고 보상 받을래!" onClick={handleCertificationPage} />
+            </>
           )}
         </ChallengeInfo>
 
