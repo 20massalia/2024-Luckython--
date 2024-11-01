@@ -43,7 +43,7 @@ const UploadLabel = styled.label`
 
 const CompleteButton = styled.button`
   background-color: ${COLORS.green};
-  color: white;
+  color: ${COLORS.grayblue};
   padding: 10px 20px;
   border: none;
   border-radius: 8px;
@@ -73,13 +73,13 @@ const ChallengeCertification = () => {
     formData.append("chImg", image);
 
     try {
-        await axios.post(`/api/challenge/image?chId=${id}&userId=1`, formData);
-        alert("인증에 실패하였습니다ㅜ");
-        navigate(`/challenges/${id}`, { replace: true });
+      await axios.post(`/api/challenge/image?chId=${id}&userId=1`, formData);
+      alert("인증이 완료되었습니다!");
     } catch (error) {
-        console.log();
-        alert("인증이 완료되었습니다!");
-        navigate(`/challenges/${id}`, { replace: true });
+      console.error("Failed to certify:", error);
+      alert("인증에 실패하였습니다.");
+    } finally {
+      navigate(`/challenges/${id}/completed`, { replace: true });
     }
   };
 
