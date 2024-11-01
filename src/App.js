@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import OpenPage from './pages/OpenPage';
 import HomePage from './pages/HomePage';
 import MyChallenges from './pages/MyChallenges';
 import ChallengeList from './pages/ChallengeList';
@@ -15,12 +16,13 @@ import CreateChallenge from './pages/CreateChallenge';
 
 function App() {
   const location = useLocation();
-  const showNavBar = ['/', '/rank', '/mychallenges', '/mypage'];
+  const showNavBar = ['/homepage', '/rank', '/mychallenges', '/mypage'];
 
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<OpenPage />} /> {/* 시작 화면으로 설정 */}
+        <Route path="/homepage" element={<HomePage />} /> {/* HomePage로 변경 */}
         <Route path="/rank" element={<UserRank />} />
         <Route path="/mychallenges" element={<MyChallenges />} />
         <Route path="/challenges" element={<ChallengeList />} />
@@ -38,10 +40,4 @@ function App() {
   );
 }
 
-export default function RootApp() {
-  return (
-    <Router>
-      <App />
-    </Router>
-  );
-}
+export default App;
