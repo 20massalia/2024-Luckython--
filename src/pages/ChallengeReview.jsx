@@ -55,14 +55,20 @@ const ChallengeReview = () => {
   const navigate = useNavigate();
   const [review, setReview] = useState("");
 
+  const userId = process.env.REACT_APP_USER_ID || 1;
+
   const handleReviewSubmit = async () => {
     if (review.trim() === "") {
       alert("후기를 작성해 주세요!");
       return;
     }
 
+    console.log(`Submitting review for Challenge ID: ${id}, User ID: ${userId}`);
+    console.log(`Review Content: ${review}`);
+
     try {
-      await axios.post(`/api/review/${id}/1`, { review });
+      const response = await axios.post(`/api/review/${id}/${userId}`, { review });
+      console.log("Review submitted successfully:", response.data);
       alert("후기가 작성되었습니다!");
       navigate(`/challenges/${id}`);
     } catch (error) {
