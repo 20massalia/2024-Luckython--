@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ChallengeHeader from '../components/ChallengeHeader';
 import { COLORS } from '../utils/color';
@@ -74,45 +74,26 @@ const ReviewDate = styled.span`
   color: #999;
 `;
 
-const ChallengeDetail = () => {
+const ChallengeDetailCompleted = () => {
   const { id } = useParams();
-  const location = useLocation();
   const navigate = useNavigate();
-  const [challenge, setChallenge] = useState(location.state);
-  const [isParticipating, setIsParticipating] = useState(false);
+  const [challenge, setChallenge] = useState(null);
 
   useEffect(() => {
     const fetchChallenge = async () => {
       try {
         const response = await axios.get(`/api/challenge/${id}`);
-        console.log("Challenge data:", response.data);
         setChallenge(response.data);
-        setIsParticipating(response.data.isParticipated);
       } catch (error) {
         console.error("Failed to fetch challenge:", error);
       }
     };
 
-    if (!challenge) {
-      fetchChallenge();
-    }
-  }, [id, challenge]);
+    fetchChallenge();
+  }, [id]);
 
-  const handleJoinClick = async () => {
-    const confirmed = window.confirm('참여하시겠습니까?');
-    
-    if (confirmed) {
-      try {
-        await axios.put(`/api/challenge?chId=${id}&userId=1`);
-        setIsParticipating(true);
-      } catch (error) {
-        console.error("Failed to join challenge:", error);
-      }
-    }
-  };
-
-  const handleCertificationPage = () => {
-    navigate(`/challenges/${id}/certification`);
+  const handleReviewClick = () => {
+    navigate(`/challenges/${id}/review`);
   };
 
   if (!challenge) {
@@ -128,15 +109,7 @@ const ChallengeDetail = () => {
           <Description>{challenge.content}</Description>
           <DateText>{challenge.startDate} - {challenge.endDate}</DateText>
           <Reward>보상: {challenge.prize}포인트</Reward>
-          {!isParticipating ? (
-            <Button text="할래!" onClick={handleJoinClick} />
-          ) : (
-            <>
-              <Button text="참여 완료!" disabled />
-              <br />
-              <Button text="참여 인증하고 보상 받을래!" onClick={handleCertificationPage} />
-            </>
-          )}
+          <Button text="참여 완료!" disabled />
         </ChallengeInfo>
 
         <ReviewsContainer>
@@ -151,10 +124,11 @@ const ChallengeDetail = () => {
           ) : (
             <p>아직 참여 후기가 없습니다.</p>
           )}
+          <Button text="후기 작성할래!" onClick={handleReviewClick} />
         </ReviewsContainer>
       </Container>
     </>
   );
 };
 
-export default ChallengeDetail;
+export default ChallengeDetailCompleted;
