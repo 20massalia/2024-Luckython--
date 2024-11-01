@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ChallengeHeader from '../components/ChallengeHeader';
 import { COLORS } from '../utils/color';
 import Button from '../components/Button';
 import axios from '../services/axiosInstance';
+import { getChallengeById } from "../services/Challenge";
 
 const Container = styled.div`
   padding: 20px;
@@ -104,28 +105,25 @@ const PopupButton = styled.button`
 
 const ChallengeDetail = () => {
   const { id } = useParams();
-  const location = useLocation();
   const navigate = useNavigate();
-  const [challenge, setChallenge] = useState(location.state);
+  const [challenge, setChallenge] = useState(null);
   const [isParticipating, setIsParticipating] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     const fetchChallenge = async () => {
       try {
-        const response = await axios.get(`/api/challenge/${id}`);
-        console.log("Challenge data:", response.data);
-        setChallenge(response.data);
-        setIsParticipating(response.data.isParticipated);
+        const response = await getChallengeById(id);
+        console.log("Challenge data:", response);
+        setChallenge(response);
+        setIsParticipating(response.isParticipated);
       } catch (error) {
         console.error("Failed to fetch challenge:", error);
       }
     };
 
-    if (!challenge) {
-      fetchChallenge();
-    }
-  }, [id, challenge]);
+    fetchChallenge();
+  }, [id]);
 
   const handleJoinClick = () => {
     setShowPopup(true);
@@ -151,7 +149,7 @@ const ChallengeDetail = () => {
   };
 
   if (!challenge) {
-    return <Container>해당 챌린지의 정보를 찾을 수 없습니다.</Container>;
+    return <Container>Loading...</Container>;
   }
 
   return (
@@ -177,9 +175,9 @@ const ChallengeDetail = () => {
         <ReviewsContainer>
           <ReviewTitle>참여 후기</ReviewTitle>
           {challenge.reviews && challenge.reviews.length > 0 ? (
-            challenge.reviews.map((review) => (
-              <Review key={review.id}>
-                <ReviewText>{review.text}</ReviewText>
+            challenge.reviews.map((review, index) => (
+              <Review key={index}>
+                <ReviewText>{review.review}</ReviewText>
                 <ReviewDate>{review.date}</ReviewDate>
               </Review>
             ))
