@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ChallengeHeader from '../components/ChallengeHeader';
 import { COLORS } from '../utils/color';
 import Button from '../components/Button';
-import { getChallengesByUser } from '../services/Challenge';
+import { getChallengesByUser, participateInChallenge, certifyChallengeWithImage } from '../services/Challenge';
 
 const Container = styled.div`
   padding: 20px;
@@ -61,13 +61,31 @@ const ChallengeDetail = () => {
     fetchChallenge();
   }, [id]);
 
-  const handleJoinClick = () => {
-    const confirmed = window.confirm('참여하시겠습니까?');
-    
+  // 챌린지 참여 기능
+  const handleJoinClick = async () => {
+    const confirmed = window.confirm('챌린지에 참여하시겠습니까?');
     if (confirmed) {
-      navigate(`/challenge-photo/${id}`, { state: challenge });
-    } else {
-      alert('이걸 빼?');
+      try {
+        const response = await participateInChallenge(id, 1); // userId 예시로 1 사용
+        console.log("참여 완료:", response);
+        alert("챌린지에 참여하였습니다!");
+      } catch (error) {
+        console.error("챌린지 참여 실패:", error);
+      }
+    }
+  };
+
+  // 사진 인증 기능
+  const handleCertifyClick = async () => {
+    const imageUrl = prompt("인증할 이미지 URL을 입력하세요:");
+    if (imageUrl) {
+      try {
+        const response = await certifyChallengeWithImage(id, 1, imageUrl); // userId 예시로 1 사용
+        console.log("사진 인증 완료:", response);
+        alert("사진 인증이 완료되었습니다!");
+      } catch (error) {
+        console.error("사진 인증 실패:", error);
+      }
     }
   };
 
@@ -84,7 +102,8 @@ const ChallengeDetail = () => {
           <Description>{challenge.content}</Description>
           <DateText>{challenge.startDate} - {challenge.endDate}</DateText>
           <Reward>보상: {challenge.prize}</Reward>
-          <Button text="할래!" onClick={handleJoinClick} />
+          <Button text="챌린지 참여" onClick={handleJoinClick} />
+          <Button text="사진 인증" onClick={handleCertifyClick} />
         </ChallengeInfo>
       </Container>
     </>

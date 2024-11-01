@@ -23,3 +23,17 @@ export const updateChallenge = async (chId, challengeData) => {
   const response = await axiosInstance.put(`/api/challenge/${chId}`, challengeData);
   return response.data;
 };
+
+// 챌린지 참여
+export const participateInChallenge = async (chId, userId) => {
+  const response = await axiosInstance.put(`/api/challenge?chId=${chId}&userId=${userId}`);
+  return response.data;
+};
+
+// 사진 인증
+export const certifyChallengeWithImage = async (chId, userId, imageUrl) => {
+  const response = await axiosInstance.post(`/api/challenge/image?chId=${chId}&userId=${userId}`, {
+    chImg: imageUrl
+  });
+  return response.data;
+};
