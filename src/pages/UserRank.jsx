@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import RankCard from '../components/RankCard';
 import { COLORS } from '../utils/color';
+import { get_ranking } from '../services/rank';
 
 const Container = styled.div`
   padding: 20px;
@@ -14,12 +15,23 @@ const Container = styled.div`
 `;
 
 const UserRank = () => {
-  const userRankData = [
-    { userId: 4, username: 'Kim4', point: 600, rank: 1 },
-    { userId: 1, username: 'Kim1', point: 500, rank: 2 },
-    { userId: 2, username: 'Kim2', point: 200, rank: 3 },
-    { userId: 3, username: 'Kim3', point: 100, rank: 4 },
-  ];
+  const [userRankData, setUserRankData] = useState([]);
+
+  useEffect(() => {
+    const fetchRanking = async () => {
+      try {
+        const data = await get_ranking();
+        const rankedData = data.map((user, index) => ({
+          ...user,
+          rank: index + 1,
+        }));
+        setUserRankData(rankedData);
+      } catch (error) {
+        console.error("Error fetching ranking data:", error);
+      }
+    };
+    fetchRanking();
+  }, []);
 
   return (
     <>
