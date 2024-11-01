@@ -5,7 +5,7 @@ import { COLORS } from '../utils/color';
 import PointIcon from '../assets/icons/Point.svg';
 import StarIcon from '../assets/icons/Star.svg';
 import CheckedIcon from '../assets/icons/Checked.svg';
-import { get_user } from '../api/user'; // Import the get_user function from user.js
+import { get_user } from '../services/user';
 
 const Container = styled.div`
   display: flex;
