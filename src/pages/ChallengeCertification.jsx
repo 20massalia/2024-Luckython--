@@ -51,7 +51,8 @@ const CompleteButton = styled.button`
 `;
 
 const ChallengeCertification = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // URL에서 id를 가져옴
+  const userId = process.env.REACT_APP_USER_ID; // .env 파일에서 userId 가져옴
   const navigate = useNavigate();
   const [image, setImage] = useState(null);
 
@@ -63,7 +64,7 @@ const ChallengeCertification = () => {
   };
 
   const handleCertification = () => {
-    alert("인증이 완료되었습니다.");
+    alert(`인증이 완료되었습니다. 사용자 ID: ${userId}`);
     navigate(`/challenges/${id}/completed`, { replace: true });
   };
 
