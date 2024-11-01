@@ -72,16 +72,10 @@ const ChallengeCertification = () => {
     const formData = new FormData();
     formData.append("chImg", image);
 
-    try {
-      const response = await certifyChallengeWithImage(id, 1, formData);
-      console.log("Certification response:", response);
-      alert("인증이 완료되었습니다.");
-    } catch (error) {
-      console.error("Failed to certify:", error);
-      alert("인증에 실패하였습니다.");
-    } finally {
-      navigate(`/challenges/${id}/completed`, { replace: true });
-    }
+    await certifyChallengeWithImage(id, 1, formData);
+
+    alert("인증이 완료되었습니다.");
+    navigate(`/challenges/${id}/completed`, { replace: true });
   };
 
   return (
