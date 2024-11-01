@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ChallengeCard from '../components/ChallengeCard';
 import Header from '../components/Header';
 import { COLORS } from '../utils/color';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   padding: 20px;
@@ -22,7 +23,21 @@ const ChallengeList = styled.div`
   margin-bottom: 20px;
 `;
 
+const CreateButton = styled.button`
+  background-color: ${COLORS.mint};
+  color: ${COLORS.black};
+  font-size: 16px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 20px;
+`;
+
 const MyChallenges = () => {
+  const navigate = useNavigate();
+  
   const ongoingChallenges = [
     {
       title: "개구리 귀엽게 그리기 챌린지",
@@ -55,42 +70,48 @@ const MyChallenges = () => {
     },
   ];
 
-  return (
-      <>
-        <Header title="나의 챌린지" />
-        <Container>
-          <SectionTitle>진행 중인 챌린지</SectionTitle>
-          <ChallengeList>
-            {ongoingChallenges.map((challenge, index) => (
-                <ChallengeCard
-                    key={index}
-                    title={challenge.title}
-                    description={challenge.description}
-                    startDate={challenge.startDate}
-                    endDate={challenge.endDate}
-                    participants={challenge.participants}
-                    isCompleted={challenge.isCompleted}
-                    daysLeft={challenge.daysLeft}
-                />
-            ))}
-          </ChallengeList>
+  const handleCreateChallenge = () => {
+    navigate('/create-challenge');
+  };
 
-          <SectionTitle>완료한 챌린지</SectionTitle>
-          <ChallengeList>
-            {completedChallenges.map((challenge, index) => (
-                <ChallengeCard
-                    key={index}
-                    title={challenge.title}
-                    description={challenge.description}
-                    startDate={challenge.startDate}
-                    endDate={challenge.endDate}
-                    participants={challenge.participants}
-                    isCompleted={challenge.isCompleted}
-                />
-            ))}
-          </ChallengeList>
-        </Container>
-      </>
+  return (
+    <>
+      <Header title="나의 챌린지" />
+      <Container>
+        <SectionTitle>진행 중인 챌린지</SectionTitle>
+        <ChallengeList>
+          {ongoingChallenges.map((challenge, index) => (
+            <ChallengeCard
+              key={index}
+              title={challenge.title}
+              description={challenge.description}
+              startDate={challenge.startDate}
+              endDate={challenge.endDate}
+              participants={challenge.participants}
+              isCompleted={challenge.isCompleted}
+              daysLeft={challenge.daysLeft}
+            />
+          ))}
+        </ChallengeList>
+
+        <SectionTitle>완료한 챌린지</SectionTitle>
+        <ChallengeList>
+          {completedChallenges.map((challenge, index) => (
+            <ChallengeCard
+              key={index}
+              title={challenge.title}
+              description={challenge.description}
+              startDate={challenge.startDate}
+              endDate={challenge.endDate}
+              participants={challenge.participants}
+              isCompleted={challenge.isCompleted}
+            />
+          ))}
+        </ChallengeList>
+
+        <CreateButton onClick={handleCreateChallenge}>+ 챌린지 생성하기</CreateButton>
+      </Container>
+    </>
   );
 };
 

@@ -2,12 +2,14 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import MyChallenges from './pages/MyChallenges';
-import ChallengeList from './pages/ChallengeList'
+import ChallengeList from './pages/ChallengeList';
 import MyPage from './pages/MyPage';
 import UserRank from './pages/UserRank';
 import NavBar from './components/NavBar';
 import ChallengeDetail from './pages/ChallengeDetail';
 import ChallengePhoto from './pages/ChallengePhoto';
+import ChallengeCertification from './pages/ChallengeCertification';
+import CreateChallenge from './pages/CreateChallenge'; // 추가된 페이지
 
 function App() {
   const location = useLocation();
@@ -23,6 +25,8 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/challenges/:id" element={<ChallengeDetail />} />
         <Route path="/challenge-photo/:id" element={<ChallengePhoto />} />
+        <Route path="/challenges/:id/certification" element={<ChallengeCertification />} />
+        <Route path="/create-challenge" element={<CreateChallenge />} /> {/* 챌린지 생성 페이지 경로 추가 */}
       </Routes>
 
       {showNavBar.includes(location.pathname) && <NavBar />}
