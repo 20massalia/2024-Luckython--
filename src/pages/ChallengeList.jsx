@@ -38,7 +38,6 @@ const ChallengeList = () => {
 
   const handleTagClick = (tag) => {
     setSelectedTag(tag);
-    // 여기에 태그에 따른 챌린지 필터링 로직을 추가할 수 있습니다.
   };
 
   const handleChallengeClick = (challenge) => {
