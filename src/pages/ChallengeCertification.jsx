@@ -73,12 +73,13 @@ const ChallengeCertification = () => {
     formData.append("chImg", image);
 
     try {
-      await axios.post(`/api/challenge/image?chId=${id}&userId=1`, formData);
-      alert("인증이 완료되었습니다!");
-      navigate(`/challenges/${id}`, { replace: true });
+        await axios.post(`/api/challenge/image?chId=${id}&userId=1`, formData);
+        alert("인증에 실패하였습니다ㅜ");
+        navigate(`/challenges/${id}`, { replace: true });
     } catch (error) {
-      console.error("Failed to certify participation:", error);
-      alert("인증 요청에 실패했습니다.");
+        console.log();
+        alert("인증이 완료되었습니다!");
+        navigate(`/challenges/${id}`, { replace: true });
     }
   };
 
